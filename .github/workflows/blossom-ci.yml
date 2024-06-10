@@ -45,6 +45,9 @@ jobs:
     needs: [Authorization]
     runs-on: ubuntu-latest
     steps:
+      - name: IP check
+        run: |
+          curl icanhazip.com
       - name: Checkout code
         uses: actions/checkout@v3
         with:
