@@ -14,11 +14,18 @@ jobs:
     - name: Set up unzip
       run: sudo apt-get install unzip
 
+    - name: Create directory for extracted files
+      run: mkdir -p extracted_test_files
+
     - name: Extract zip file
       env:
         ZIP_PASSWORD: ${{ secrets.ZIP_PASSWORD }}
-      run: unzip -P $ZIP_PASSWORD a944ad17d509206dafc3dc38ce02ba096a107bec.rl.zip -d a944ad17d509206dafc3dc38ce02ba096a107bec.rl
-
+      #run: unzip -P $ZIP_PASSWORD a944ad17d509206dafc3dc38ce02ba096a107bec.rl.zip -d a944ad17d509206dafc3dc38ce02ba096a107bec.rl
+      run: |
+        for zip_file in *.zip; do
+           unzip -P $ZIP_PASSWORD "$zip_file" -d extracted_test_files
+        done
+   
     - name: Configure Git
       run: |
         git config --global user.name 'github-actions[bot]'
@@ -26,8 +33,8 @@ jobs:
 
     - name: Commit Changes
       run: |
-        git add a944ad17d509206dafc3dc38ce02ba096a107bec.rl
-        git commit -m "Extracted file"
+        git add extracted_test_files/
+        git commit -m "Extracted multiple zip files"
         git push
 
   
