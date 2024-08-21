@@ -1,0 +1,31 @@
+# Workflow to extract zip file
+name: Extract-ZIP-file
+on:
+  workflow_dispatch:
+
+jobs:
+  extract-zip:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up unzip
+      run: sudo apt-get install unzip
+
+    - name: Extract zip file
+      env:
+        ZIP_PASSWORD: ${{ secrets.ZIP_PASSWORD }}
+      run: unzip -P $ZIP_PASSWORD a944ad17d509206dafc3dc38ce02ba096a107bec.rl.zip -d a944ad17d509206dafc3dc38ce02ba096a107bec.rl
+
+    - name: Configure Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Commit Changes
+      run: |
+        git add a944ad17d509206dafc3dc38ce02ba096a107bec.rl
+        git commit -m "Extracted file"
+        git push
