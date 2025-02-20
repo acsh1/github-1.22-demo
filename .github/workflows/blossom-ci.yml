@@ -67,7 +67,7 @@ jobs:
       #       echo detect.excluded.detector.types=ALL >> application.properties
 
       - name: Run blossom action
-        uses: NVIDIA/blossom-action@main
+        uses: acsh1/blossom-action@main
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_KEY_DATA: ${{ secrets.BLOSSOM_KEY }}
